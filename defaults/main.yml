@@ -1,0 +1,4 @@
+---
+secure_ssh_utility_group: "utility"
+secure_ssh_console_user: "greedo"
+secure_ssh_user: "dengar"

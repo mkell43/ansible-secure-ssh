@@ -1,0 +1,49 @@
+---
+- name: Ensure the utility group exists.
+  group:
+    name: "{{ secure_ssh_utility_group }}"
+    state: present
+
+- name: Create the console user.
+  user:
+    name: "{{ secure_ssh_console_user }}"
+    password: " {{ secure_ssh_console_user_pass }}"
+    shell: /bin/bash
+    groups: sudo,{{ secure_ssh_utility_group }}
+    append: yes
+    state: present
+    update_password: always
+
+- name: Create the ssh user.
+  user:
+    name: "{{ secure_ssh_user }}"
+    shell: /bin/bash
+    groups: sudo,{{ secure_ssh_utility_group }}
+    append: yes
+    state: present
+
+- name: Ensure ssh user's ~/.ssh directory exists.
+  file:
+    path: "/home/{{ secure_ssh_user }}/.ssh"
+    state: directory
+    owner: "{{ secure_ssh_user }}"
+    group: "{{ secure_ssh_user }}"
+    mode: 0700
+
+- name: Add the ssh user's public key to authorized_keys.
+  copy:
+    content: "{{ secure_ssh_user_pub_key }}"
+    dest: "/home/{{ secure_ssh_user }}/.ssh/authorized_keys"
+    owner: "{{ secure_ssh_user }}"
+    group: "{{ secure_ssh_user }}"
+    mode: 0600
+
+- name: Upload sshd_config file.
+  copy:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart SSHD
