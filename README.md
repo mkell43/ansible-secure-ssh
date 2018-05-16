@@ -24,6 +24,7 @@ secure_ssh_user_pub_key - The pubkey of the secure_ssh_user. Default: None
 Example Playbook
 ----------------
 
+```
   ---
   - hosts: all
     remote_user: root
@@ -32,6 +33,7 @@ Example Playbook
       secure_ssh_user_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
     roles:
       - ansible-secure-ssh
+```
 
 License
 -------
