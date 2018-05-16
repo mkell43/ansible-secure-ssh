@@ -11,7 +11,7 @@ None
 Role Variables
 --------------
 
-**secure_ssh_utility_group** - The name of the utility group that the two utility users will be assigned to. (Note: This role does not currently use the group that is created.) _Default: utilty_
+**secure_ssh_utility_group** - The name of the utility group that the two utility users will be assigned to. (Note: This role does not currently use the group that is created.) _Default: utility_
 
 **secure_ssh_console_user** - The name of the user to be created that can only access the host via console. _Default: greedo_
 
